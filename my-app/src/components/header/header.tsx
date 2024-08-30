@@ -1,13 +1,15 @@
 import { useState, ChangeEvent, MouseEvent } from "react"
-import { useAppDispatch } from "../../hook";
-//import { fetchRepos } from "../../store/repository-slice";
-import { addSearchValue, searchStart } from "../../store/app-slice";
+import { useAppDispatch, useAppSelector } from "../../hook";
+import { addSearchValue } from "../../store/app-slice";
+import { fetchRepos, setCurrentPage } from "../../store/repository-slice";
 
 
 export const Header: React.FC = () => {
 
     const [searchValue, setSearchValue] = useState('');
 
+    const currentPage = useAppSelector(state => state.repositories.currentPage);
+    const selectValue = useAppSelector(state => state.app.selectValue);
     
 
     const dispatch = useAppDispatch();
@@ -16,8 +18,8 @@ export const Header: React.FC = () => {
 
     const onClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
         if(searchValue){
-            dispatch(searchStart());
-           // dispatch(fetchRepos({searchValue}));
+            dispatch(setCurrentPage(1));
+           dispatch(fetchRepos({searchValue, currentPage, selectValue}));
             setSearchValue('');
             dispatch(addSearchValue(searchValue));
         }

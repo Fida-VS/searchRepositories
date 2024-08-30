@@ -18,3 +18,13 @@ code {
   margin-top: 20px;
   margin-bottom: 50px;
 }
+
+.page, .current-page{
+cursor: pointer;
+margin: 10px;
+}
+
+.current-page {
+  font-weight: bold;
+  color: blue;
+}

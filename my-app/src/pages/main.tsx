@@ -12,22 +12,19 @@ export const Main: React.FC = () => {
     const {loading, error} = useAppSelector(state => state.repositories);
 
     const repositories = useAppSelector(state => state.repositories.repositories);
-
-    const isSearchStart = useAppSelector(state => state.app.isSearchStart);
-
     const searchValue = useAppSelector(state => state.app.searchValue);
     const sortValue = useAppSelector(state => state.app.sortValue);
     const selectValue = useAppSelector(state => state.app.selectValue);
+    const currentPage = useAppSelector(state => state.repositories.currentPage);
 
     const dispatch = useAppDispatch();
     
     useEffect(() => {
+        dispatch(fetchRepos({searchValue, sortValue, selectValue, currentPage}));
         
-        dispatch(fetchRepos({searchValue, sortValue, selectValue}));
-        
-    }, [dispatch, isSearchStart, selectValue, sortValue, searchValue])
+    }, [dispatch, searchValue, selectValue, sortValue, currentPage])
 
-    return (isSearchStart || (repositories.length > 0 && repositories !== null)) ? (
+    return (repositories.length > 0 && repositories !== null) ? (
         <div className="main">
             {loading && <h2>Loading...</h2>}
             {error && <h2>An error occured: {error}</h2>}
@@ -40,12 +37,6 @@ export const Main: React.FC = () => {
 }
 
 
-
-
-
-
-// {loading && <h2>Loading...</h2>}
-// 			{error && <h2>An error occured: {error}</h2>}
 
 
     // return (

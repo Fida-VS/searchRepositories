@@ -1,5 +1,9 @@
 import { AnyAction, createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+type Data = {
+    items: Repository[];
+    total_count: number;
+}
 
 type Repository = {
     id: number;
@@ -24,6 +28,7 @@ type fetchReposProps = {
     searchValue: string;
     sortValue?: string;
     selectValue?: string;
+    currentPage?: number;
 }
 
 type RepositoriesState = {
@@ -42,12 +47,12 @@ const initialState: RepositoriesState = {
     error: null,
 }
 
-export const fetchRepos = createAsyncThunk<Repository[], fetchReposProps, {rejectValue: string}>(
+export const fetchRepos = createAsyncThunk<Data, fetchReposProps, {rejectValue: string}>(
     'repositories/fetchRepos',
-    async function ({searchValue, sortValue, selectValue}, { rejectWithValue }) {
+    async function ({searchValue, sortValue, selectValue, currentPage}, { rejectWithValue }) {
 
 
-            const response = await fetch(`https://api.github.com/search/repositories?q=${searchValue}&sort=${sortValue}&per_page=${selectValue}`,
+            const response = await fetch(`https://api.github.com/search/repositories?q=${searchValue}&sort=${sortValue}&per_page=${selectValue}&page=${currentPage}`,
                 {
                     headers: {
                         'content-type': 'application/json',
@@ -65,7 +70,7 @@ export const fetchRepos = createAsyncThunk<Repository[], fetchReposProps, {rejec
 
             console.log(data)
 
-            return data.items;
+            return data;
           
           } 
   
@@ -74,7 +79,11 @@ export const fetchRepos = createAsyncThunk<Repository[], fetchReposProps, {rejec
 const repositorySlice = createSlice({
     name: "repositories",
     initialState,
-    reducers: {},
+    reducers: {
+        setCurrentPage(state, action: PayloadAction<number>){
+        state.currentPage = action.payload;
+      }
+    },
     extraReducers: (builder) => {
         builder
         .addCase(fetchRepos.pending, (state) => {
@@ -82,7 +91,8 @@ const repositorySlice = createSlice({
             state.error = null;
         })
         .addCase(fetchRepos.fulfilled, (state, action) => {
-            state.repositories = action.payload;
+            state.repositories = action.payload.items;
+            state.totalCount = action.payload.total_count;
             state.loading = false;
         })
         .addMatcher(isError, (state, action: PayloadAction<string>) => {
@@ -93,6 +103,7 @@ const repositorySlice = createSlice({
   });
 
 
+  export const { setCurrentPage } = repositorySlice.actions;
   
 export default repositorySlice.reducer;
 

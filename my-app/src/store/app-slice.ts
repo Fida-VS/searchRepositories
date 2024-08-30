@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 type appState = {
-    isSearchStart: boolean;
     isMouseEnter: boolean;
     searchValue: string;
     sortValue: string;
@@ -12,7 +11,6 @@ type appState = {
 }
 
 const initialState: appState = {
-    isSearchStart: false,
     isMouseEnter: false,
     searchValue: '',
     sortValue: '',
@@ -25,9 +23,6 @@ const appSlice = createSlice({
     name: "app",
     initialState,
     reducers: {
-        searchStart(state) {
-            state.isMouseEnter = true;
-          },
           doMouseEnterTrue(state) {
             state.isMouseEnter = true;
           },
@@ -54,6 +49,6 @@ const appSlice = createSlice({
 
 
 
-export const { searchStart, doMouseEnterTrue, doMouseEnterFalse, addSearchValue, addSelectValue, addCurrentRepositoryId } = appSlice.actions;
+export const { doMouseEnterTrue, doMouseEnterFalse, addSearchValue, addSelectValue, addCurrentRepositoryId } = appSlice.actions;
 
 export default appSlice.reducer;
