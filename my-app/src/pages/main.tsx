@@ -12,17 +12,16 @@ export const Main: React.FC = () => {
     const {loading, error} = useAppSelector(state => state.repositories);
 
     const repositories = useAppSelector(state => state.repositories.repositories);
-    const searchValue = useAppSelector(state => state.app.searchValue);
-    const sortValue = useAppSelector(state => state.app.sortValue);
-    const selectValue = useAppSelector(state => state.app.selectValue);
+    const searchValue = useAppSelector(state => state.repositories.searchValue);
+    const sortValue = useAppSelector(state => state.repositories.sortValue);
     const currentPage = useAppSelector(state => state.repositories.currentPage);
 
     const dispatch = useAppDispatch();
     
     useEffect(() => {
-        dispatch(fetchRepos({searchValue, sortValue, selectValue, currentPage}));
+        dispatch(fetchRepos({searchValue, sortValue, currentPage}));
         
-    }, [dispatch, searchValue, selectValue, sortValue, currentPage])
+    }, [dispatch, searchValue, sortValue, currentPage])
 
     return (repositories.length > 0 && repositories !== null) ? (
         <div className="main">
@@ -39,11 +38,4 @@ export const Main: React.FC = () => {
 
 
 
-    // return (
-    //     <div className="main">
-            
-    //         <Table />
-    //         <Sidebar />
-    //         	<Footer/>
-    //     </div>
-    // )
+   

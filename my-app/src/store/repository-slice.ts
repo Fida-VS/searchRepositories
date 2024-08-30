@@ -27,12 +27,13 @@ type License = {
 type fetchReposProps = {
     searchValue: string;
     sortValue?: string;
-    selectValue?: string;
     currentPage?: number;
 }
 
 type RepositoriesState = {
     repositories: Repository[];
+    searchValue: string;
+    sortValue: string;
     currentPage: number;
     totalCount: number;
     loading: boolean;
@@ -41,6 +42,8 @@ type RepositoriesState = {
 
 const initialState: RepositoriesState = {
     repositories: [],
+    searchValue: '',
+    sortValue: '',
     currentPage: 1,
     totalCount: 0,
     loading: false,
@@ -49,10 +52,10 @@ const initialState: RepositoriesState = {
 
 export const fetchRepos = createAsyncThunk<Data, fetchReposProps, {rejectValue: string}>(
     'repositories/fetchRepos',
-    async function ({searchValue, sortValue, selectValue, currentPage}, { rejectWithValue }) {
+    async function ({searchValue, sortValue, currentPage}, { rejectWithValue }) {
 
 
-            const response = await fetch(`https://api.github.com/search/repositories?q=${searchValue}&sort=${sortValue}&per_page=${selectValue}&page=${currentPage}`,
+            const response = await fetch(`https://api.github.com/search/repositories?q=${searchValue}&sort=${sortValue}&per_page=10&page=${currentPage}`,
                 {
                     headers: {
                         'content-type': 'application/json',
@@ -80,6 +83,12 @@ const repositorySlice = createSlice({
     name: "repositories",
     initialState,
     reducers: {
+        addSearchValue(state, action: PayloadAction<string>){
+            state.searchValue = action.payload;
+          },
+          addSortValue(state, action: PayloadAction<string>){
+            state.sortValue = action.payload;
+          },
         setCurrentPage(state, action: PayloadAction<number>){
         state.currentPage = action.payload;
       }
@@ -103,7 +112,7 @@ const repositorySlice = createSlice({
   });
 
 
-  export const { setCurrentPage } = repositorySlice.actions;
+  export const { addSearchValue, addSortValue, setCurrentPage } = repositorySlice.actions;
   
 export default repositorySlice.reducer;
 

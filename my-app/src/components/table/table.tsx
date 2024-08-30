@@ -10,14 +10,13 @@ export const Table: React.FC = () => {
 
   const repositories = useAppSelector(state => state.repositories.repositories);
 
-  const searchValue = useAppSelector(state => state.app.searchValue);
-  const selectValue = useAppSelector(state => state.app.selectValue);
-    const currentPage = useAppSelector(state => state.repositories.currentPage);
+  const searchValue = useAppSelector(state => state.repositories.searchValue);
+  const currentPage = useAppSelector(state => state.repositories.currentPage);
 
   const dispatch = useAppDispatch();
 
    const onHandleClick = (sortValue: string) => {
-    dispatch(fetchRepos({searchValue, selectValue, sortValue, currentPage}))
+    dispatch(fetchRepos({searchValue, sortValue, currentPage}))
    };
 
     return (
