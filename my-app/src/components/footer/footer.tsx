@@ -1,50 +1,31 @@
-import { Container } from "@mui/material";
+import { Container, Pagination, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import {  setCurrentPage } from "../../store/repository-slice";
-import { createPages } from "../../utils/create-pages";
+import { useState } from "react";
 
 
 
 export const Footer: React.FC = () => {
 
+    const [page, setPage] = useState(1);
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+    dispatch(setCurrentPage(page))
+  };
+
     const dispatch = useAppDispatch();
     
     const totalCount = useAppSelector(state => state.repositories.totalCount);
-    const currentPage = useAppSelector(state => state.repositories.currentPage);
     const pagesCount = Math.ceil(totalCount/10);
 
-    const pages: number[] = [];
-    createPages(pages, pagesCount, currentPage);
-
-    const prevHandler = () => {
-        if(currentPage !== 1){
-            dispatch(setCurrentPage(currentPage - 1))
-        } else return;
-    };
-
-    const nextHandler = () => {
-        if(currentPage !== pagesCount){
-            dispatch(setCurrentPage(currentPage + 1))
-        } else return;
-    };
-    
 
     return (
-        <Container sx={{paddingTop: '4%'}} className="footer">
+        <Container sx={{paddingTop: '4%'}}>
 
-<div className="buttons">
-    <button onClick={prevHandler}>prev</button>
+            <Stack spacing={2}>
+                <Pagination count={pagesCount} page={page} onChange={handleChange} />
+            </Stack>
 
-<div className="pages">
-    {pages.map((page, index) => <span 
-    key={index} 
-    className={currentPage === page ? "current-page" : "page"}
-    onClick={() => dispatch(setCurrentPage(page))}
-    >{page}</span>)}
-</div>
-
-    <button onClick={nextHandler}>next</button>
-</div>
         </Container>
     )
 }
