@@ -2,6 +2,8 @@ import { useState, ChangeEvent, MouseEvent } from "react"
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { addSearchValue } from "../../store/repository-slice";
 import { fetchRepos, setCurrentPage } from "../../store/repository-slice";
+import { AppBar, Button, Container, TextField, Toolbar } from "@mui/material";
+
 
 
 export const Header: React.FC = () => {
@@ -24,13 +26,15 @@ export const Header: React.FC = () => {
     }
 
 
+
     return (
-        <div className="header">
-            <form>
-            <input placeholder="Введите поисковый запрос" value={searchValue} onChange={onChangeHandler}/>
-            <button name="search-input" type="button" onClick={onClickHandler}>Искать</button>
-            </form>
-            
-        </div>
+        <AppBar sx={{backgroundColor: '#009999'}} position="static">
+            <Toolbar>
+            <Container sx={{padding: '20px'}}>
+            <TextField className="input" sx={{backgroundColor: 'white', width: '80%'}}  label="Введите поисковый запрос" id="outlined-basic" variant="standard" value={searchValue} onChange={onChangeHandler}/>
+            <Button sx={{ flexGrow: 1, marginLeft: '2rem' }} size="large" color="inherit" type="button" onClick={onClickHandler}>Искать</Button>
+            </Container>
+            </Toolbar>
+        </AppBar>
     )
 }

@@ -1,6 +1,7 @@
 import { MouseEvent } from "react";
 import { useAppDispatch } from "../../hook";
 import { addCurrentRepositoryId, doMouseEnterFalse, doMouseEnterTrue } from "../../store/app-slice";
+import { TableCell, TableRow } from "@mui/material";
 
 
 interface TableRowProps {
@@ -13,7 +14,7 @@ interface TableRowProps {
 }
 
 
-export const TableRow: React.FC<TableRowProps> = ({
+export const MyTableRow: React.FC<TableRowProps> = ({
     id,
     name,
     language,
@@ -38,13 +39,13 @@ export const TableRow: React.FC<TableRowProps> = ({
       };
 
     return (
-        <tr data-id={id} onMouseEnter={handleMouseEnter} 
+        <TableRow data-id={id} onMouseEnter={handleMouseEnter} 
         onMouseLeave={handleMouseLeave}>
-            <td>{name}</td>
-            <td>{language}</td>
-            <td>{forks_count}</td>
-            <td>{stargazers_count}</td>
-            <td>{updated_at.substring(-10, 10)}</td>
-        </tr>
+            <TableCell>{name}</TableCell>
+            <TableCell align="right">{language}</TableCell>
+            <TableCell align="right">{forks_count}</TableCell>
+            <TableCell align="right">{stargazers_count}</TableCell>
+            <TableCell align="right">{updated_at.substring(-10, 10)}</TableCell>
+        </TableRow>
     )
 }

@@ -1,12 +1,14 @@
 
+import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { fetchRepos } from "../../store/repository-slice";
-import { TableRow } from "./tableRow";
+import { MyTableRow } from "./tableRow";
 
 
 
 
-export const Table: React.FC = () => {
+
+export const MyTable: React.FC = () => {
 
   const repositories = useAppSelector(state => state.repositories.repositories);
 
@@ -20,21 +22,22 @@ export const Table: React.FC = () => {
    };
 
     return (
-      <div>
-        <table>
-              <thead>
-  <tr>
-    <th><button type="button">Название</button></th>
-    <th><button type="button">Язык</button></th>
-    <th><button type="button" onClick={() => onHandleClick('forks')}>Число форков</button></th>
-    <th><button type="button" onClick={() => onHandleClick('stars')}>Число звёзд</button></th>
-    <th><button type="button" onClick={() => onHandleClick('updated')}>Дата обновления</button></th>
-  </tr>
-  </thead>
-  <tbody>
+      <Container>
+        <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+  <TableRow>
+    <TableCell><Typography>Название</Typography></TableCell>
+    <TableCell align="right"><Typography>Язык</Typography></TableCell>
+    <TableCell align="right"><Typography sx={{cursor: 'pointer'}} onClick={() => onHandleClick('forks')}>Число форков</Typography></TableCell>
+    <TableCell align="right"><Typography sx={{cursor: 'pointer'}} onClick={() => onHandleClick('stars')}>Число звёзд</Typography></TableCell>
+    <TableCell align="right"><Typography sx={{cursor: 'pointer'}} onClick={() => onHandleClick('updated')}>Дата обновления</Typography></TableCell>
+  </TableRow>
+  </TableHead>
+  <TableBody>
 						{repositories.map(
 							(repository) => (
-								<TableRow 
+								<MyTableRow 
                 key={repository.id}
                 {...repository}
                 
@@ -42,10 +45,11 @@ export const Table: React.FC = () => {
 							)
 						)}
         
-  </tbody>
-  </table>
+  </TableBody>
+  </Table>
+  </TableContainer>
         
-  </div>
+  </Container>
     )
 }
 

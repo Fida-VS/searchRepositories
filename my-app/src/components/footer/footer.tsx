@@ -1,3 +1,4 @@
+import { Container } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import {  setCurrentPage } from "../../store/repository-slice";
 import { createPages } from "../../utils/create-pages";
@@ -29,7 +30,7 @@ export const Footer: React.FC = () => {
     
 
     return (
-        <div className="footer">
+        <Container sx={{paddingTop: '4%'}} className="footer">
 
 <div className="buttons">
     <button onClick={prevHandler}>prev</button>
@@ -44,6 +45,6 @@ export const Footer: React.FC = () => {
 
     <button onClick={nextHandler}>next</button>
 </div>
-        </div>
+        </Container>
     )
 }

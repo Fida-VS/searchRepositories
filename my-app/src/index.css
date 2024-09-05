@@ -12,12 +12,6 @@ code {
     monospace;
 }
 
-.header{
-  width: 600px;
-  margin: 0 auto;
-  margin-top: 20px;
-  margin-bottom: 50px;
-}
 
 .page, .current-page{
 cursor: pointer;
