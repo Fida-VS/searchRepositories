@@ -4,7 +4,9 @@ import { Sidebar } from "../components/sidebar/sidebar";
 import { MyTable } from "../components/table/table";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchRepos } from "../store/repository-slice";
-import { Container, Typography } from "@mui/material";
+import { Alert, Box, Container, Stack, Typography } from "@mui/material";
+import { Loader } from "../components/loader/loader";
+
 
 
 
@@ -25,14 +27,25 @@ export const Main: React.FC = () => {
     }, [dispatch, searchValue, sortValue, currentPage])
 
     return (repositories.length > 0 && repositories !== null) ? (
-        <Container sx={{paddingTop: '3%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexBasis: '90%'}} className="main">
+        <Container sx={{paddingTop: '3%'}} className="main">
+
+            {loading && <Loader />}
+            {error && (
+		<Stack sx={{ width: '100%', marginBottom: '2rem'}} spacing={1}>
+		  <Alert severity="error">{error}</Alert>
+		</Stack>
+	  )}
+
+    <Box sx={{minHeight: 'calc(100vh - 200px)'}} className="content">
+
         <Container sx={{display: 'flex', justifyContent: 'space-between'}}>
-            {loading && <h2>Loading...</h2>}
-            {error && <h2>An error occured: {error}</h2>}
            <MyTable />
             <Sidebar />
         </Container>
+
+        </Box>
          <Footer/>
+
          </Container>
         ) : (<Container sx={{paddingTop: '15%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}><Typography sx={{color: '	#C0C0C0'}} variant="h3">Добро пожаловать</Typography></Container>)
 }

@@ -71,8 +71,6 @@ export const fetchRepos = createAsyncThunk<Data, fetchReposProps, {rejectValue: 
         
             const data = await response.json();
 
-            console.log(data)
-
             return data;
           
           } 

@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
 
 
     return (
-        <Container sx={{paddingTop: '4%'}}>
+        <Container sx={{height: '30px'}}>
 
             <Stack spacing={2}>
                 <Pagination count={pagesCount} page={page} onChange={handleChange} />
